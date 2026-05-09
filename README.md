@@ -104,18 +104,20 @@ SplitManage(splitShort, splitCfg);
 ```
 
 **Paso 7.** En cada orden, reemplazar la apertura de orden por la versión split. 
-Ejemplo orden en una estrategia sin modificar:
+
+Ejemplo de apertura de orden en una estrategia sin modificar:
 ```mql4
 _ticket = sqOpenOrder(OP_BUYSTOP, ..., mmLots, ...);
 ```
-versión split
-para órdenes pendientes (STOP o LIMIT)
+
+Versión split para órdenes pendientes (STOP o LIMIT)
 ```mql4
 double pos0Lots = SplitAdjustLots(Symbol(), mmLots, splitCfg);
 _ticket = sqOpenOrder(OP_BUYSTOP, ..., pos0Lots, ...);
 if(_ticket > 0)
     SplitRegister(splitLong, _ticket, splitCfg, mmLots, true);
 ```
+
 Versión split para órdenes a mercado (MARKET)
 ```mql4
 double pos0Lots = SplitAdjustLots(Symbol(), mmLots, splitCfg);
@@ -123,6 +125,7 @@ _ticket = sqOpenOrder(OP_BUYSTOP, ..., pos0Lots, ...);
 if(_ticket > 0)
     SplitRegister(splitLong, _ticket, splitCfg, mmLots, false);
 ```
+
 Nota: Usa splitLong para ordenes de compra y splitShort para órdenes de venta.
 
 ---
