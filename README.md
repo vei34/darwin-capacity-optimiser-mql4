@@ -97,7 +97,7 @@ SplitManage(splitLong,  splitCfg);
 SplitManage(splitShort, splitCfg);
 ```
 
-**Paso 6.** Añadir en **OnTimer()** justo al principio del cuerpo, para que funcione también en backtesting
+**Paso 6.** Añadir en **OnTick()** justo al principio del cuerpo, para que funcione también en backtesting
 ```mql4
 SplitManage(splitLong,  splitCfg);
 SplitManage(splitShort, splitCfg);
