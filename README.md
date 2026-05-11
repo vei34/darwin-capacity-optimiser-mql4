@@ -57,27 +57,28 @@ Ideal para:
 
 1. Descarga o clona este repositorio.
 2. Copia la carpeta `Include/SplitOrder/` completa a tu carpeta de MetaTrader 4: `MQL4/Include/SplitOrder/`
-3. (Opcional) Copia los ejemplos que están en `Experts/Examples/` para probar el funcionamiento.
+3. (Opcional) Copia los ejemplos que están en `Experts/` para probar el funcionamiento.
 
 ---
 
 ## 🚀 Uso Básico (Quick Start) 
 ### Pasos para integrar SplitOrder en Estrategias MQL4
 (Pueden ser aplicados manualmente o con ayuda de cualquier LLM)
+En la carpeta `Experts/`hay un ejemplo de un EA sin SplitOrder y el mismo EA con SplitOrder para poder ver los puntos exactos de cada uno de los pasos.
 
-**Paso 1.** Añadir la librería en `Include` (al principio del archivo):
+**Paso 1.** Añadir la librería en **Include** (al principio del archivo):
 ```mql4
 #include <SplitOrder/SplitOrder.mqh>
 ```
 
-**Paso 2.** Añadir en `variables globales` (fuera de cualquier función):
+**Paso 2.** Añadir en **variables globales** (fuera de cualquier función):
 ```mql4
 SplitConfig splitCfg;
 SplitState  splitLong;
 SplitState  splitShort;
 ```
 
-**Paso 3.** Añadir en `OnInit()` la configuración del split:
+**Paso 3.** Añadir en **OnInit()** la configuración del split:
 ```mql4
 SplitConfigInit(splitCfg);
 splitCfg.splitCount   = 3;   // Dividir en 3 órdenes
@@ -86,12 +87,12 @@ splitCfg.magic        = MagicNumber; //No cambiar para que coincida con la orden
 EventSetTimer(1);
 ```
 
-**Paso 4.** Añadir en `OnDeinit()`:
+**Paso 4.** Añadir en **OnDeinit()**:
 ```mql4
 EventKillTimer();
 ```
 
-**Paso 5.** Añadir en `OnTick()` justo al principio del cuerpo:
+**Paso 5.** Añadir en **OnTick()** justo al principio del cuerpo:
 ```mql4
 // Gestión de las colas de órdenes de SplitOrder
 SplitManage(splitLong,  splitCfg);
