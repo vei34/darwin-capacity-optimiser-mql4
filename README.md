@@ -65,55 +65,50 @@ Ideal para:
 ### Pasos para integrar SplitOrder en Estrategias MQL4
 (Pueden ser aplicados manualmente o con ayuda de cualquier LLM)
 
-**Paso 1.** Añadir **Include** al principio del archivo
+**Paso 1.** Añadir en `Include` (al principio del archivo),:
 ```mql4
 #include <SplitOrder/SplitOrder.mqh>
 ```
 
-**Paso 2.** Añadir las **variables globales** (fuera de cualquier función)
+**Paso 2.** Añadir en `variables globales` (fuera de cualquier función):
 ```mql4
 SplitConfig splitCfg;
 SplitState  splitLong;
 SplitState  splitShort;
 ```
 
-**Paso 3.** Añadir la configuración en **OnInit()**
+**Paso 3.** Añadir en `OnInit()` la configuración del split:
 ```mql4
 SplitConfigInit(splitCfg);
 splitCfg.splitCount   = 3;   // Dividir en 3 órdenes
 splitCfg.delaySeconds = 10;  // 10 segundos entre órdenes
-splitCfg.magic        = MagicNumber;
+splitCfg.magic        = MagicNumber; //No cambiar para que coincida con la orden original
 EventSetTimer(1);
 ```
 
-**Paso 4.** Añadir en **OnDeinit()**
+**Paso 4.** Añadir en `OnDeinit()`:
 ```mql4
 EventKillTimer();
 ```
 
-**Paso 5.** Añadir en **OnTimer()**
+**Paso 5.** Añadir en `OnTick()` justo al principio del cuerpo:
 ```mql4
+// Gestión de las colas de órdenes de SplitOrder
 SplitManage(splitLong,  splitCfg);
 SplitManage(splitShort, splitCfg);
 ```
 
-**Paso 6.** Añadir en **OnTick()** justo al principio del cuerpo, para que funcione también en backtesting
-```mql4
-SplitManage(splitLong,  splitCfg);
-SplitManage(splitShort, splitCfg);
-```
-
-**Paso 7.** En cada orden, reemplazar la apertura de orden por la versión split. 
+**Paso 6.** En cada orden, reemplazar la apertura de orden por la versión split. 
 
 Ejemplo de apertura de orden en una estrategia sin modificar:
 ```mql4
-_ticket = sqOpenOrder(OP_BUYSTOP, ..., mmLots, ...);
+_ticket = OrderSend(OP_BUYSTOP, ..., mmLots, ...);
 ```
 
-Versión split para órdenes pendientes (STOP o LIMIT)
+Versión split para las órdenes pendientes (STOP o LIMIT)
 ```mql4
 double pos0Lots = SplitAdjustLots(Symbol(), mmLots, splitCfg);
-_ticket = sqOpenOrder(OP_BUYSTOP, ..., pos0Lots, ...);
+_ticket = OrderSend(OP_BUYSTOP, ..., pos0Lots, ...);
 if(_ticket > 0)
     SplitRegister(splitLong, _ticket, splitCfg, mmLots, true);
 ```
@@ -121,7 +116,7 @@ if(_ticket > 0)
 Versión split para órdenes a mercado (MARKET)
 ```mql4
 double pos0Lots = SplitAdjustLots(Symbol(), mmLots, splitCfg);
-_ticket = sqOpenOrder(OP_BUYSTOP, ..., pos0Lots, ...);
+_ticket = OrderSend(OP_BUYSTOP, ..., pos0Lots, ...);
 if(_ticket > 0)
     SplitRegister(splitLong, _ticket, splitCfg, mmLots, false);
 ```
