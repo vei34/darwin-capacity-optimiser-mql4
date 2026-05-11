@@ -65,7 +65,7 @@ Ideal para:
 ### Pasos para integrar SplitOrder en Estrategias MQL4
 (Pueden ser aplicados manualmente o con ayuda de cualquier LLM)
 
-**Paso 1.** Añadir en `Include` (al principio del archivo),:
+**Paso 1.** Añadir la librería en `Include` (al principio del archivo):
 ```mql4
 #include <SplitOrder/SplitOrder.mqh>
 ```
