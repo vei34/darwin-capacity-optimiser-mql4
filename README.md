@@ -58,6 +58,7 @@ Ideal para:
 1. Descarga o clona este repositorio.
 2. Copia la carpeta `Include/SplitOrder/` completa a tu carpeta de MetaTrader 4: `MQL4/Include/SplitOrder/`
 3. (Opcional) Copia los ejemplos que están en `Experts/` para probar el funcionamiento.
+Nota: No funciona en Probador de Estrategias. Las pruebas deben de realizarse en una cuenta demo.
 
 ---
 
